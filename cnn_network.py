@@ -6,7 +6,7 @@ from dense_layer import Dense
 from convolutional_layer import Convolutional
 from reshape_layer import Reshape
 from activation_functions import Leaky_Relu, Sigmoid, Softmax
-from loss_functions import binary_cross_entropy, binary_cross_entropy_prime
+from loss_functions import binary_cross_entropy, binary_cross_entropy_prime, categorical_cross_entropy, categorical_cross_entropy_prime
 from network import train, predict
 
 def preprocess_data(x, y, limit):
@@ -23,32 +23,32 @@ def preprocess_data(x, y, limit):
 
 # load MNIST from server, limit to 100 images per class since we're not training on GPU
 (x_train, y_train), (x_test, y_test) = mnist.load_data()
-x_train, y_train = preprocess_data(x_train, y_train, 100)
-x_test, y_test = preprocess_data(x_test, y_test, 100)
+x_train, y_train = preprocess_data(x_train, y_train, 10000)
+x_test, y_test = preprocess_data(x_test, y_test, 1000)
 
 # neural network
 network = [
-    Convolutional((1, 28, 28), 3, 5),
+    Convolutional(input_shape=(1, 28, 28), kernel_size=3, depth=5),
     Leaky_Relu(),
-    Reshape((5, 26, 26), (5 * 26 * 26, 1)),
-    Dense(5 * 26 * 26, 100),
+    Reshape(input_shape=(5, 26, 26), output_shape=(5 * 26 * 26, 1)),
+    Dense(input_size=5 * 26 * 26, output_size=100),
     Sigmoid(),
-    Dense(100, 10),
+    Dense(input_size=100, output_size=10),
     Softmax()
 ]
 
 # train
 train(
     network,
-    binary_cross_entropy,
-    binary_cross_entropy_prime,
+    categorical_cross_entropy,
+    categorical_cross_entropy_prime,
     x_train,
     y_train,
     epochs=20,
     learning_rate=0.1
 )
 
-# test
+# test (MNIST test data)
 correct_predictions = 0
 for x, y in zip(x_test, y_test):
     output = predict(network, x)

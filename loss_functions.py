@@ -11,3 +11,12 @@ def binary_cross_entropy(y_true, y_pred):
 
 def binary_cross_entropy_prime(y_true, y_pred):
     return ((1 - y_true) / (1 - y_pred) - y_true / y_pred) / np.size(y_true)
+
+def categorical_cross_entropy(y_true, y_pred):
+    # Avoid numerical instability by adding a small epsilon value
+    epsilon = 1e-7
+    return -np.mean(y_true * np.log(y_pred + epsilon))
+
+def categorical_cross_entropy_prime(y_true, y_pred):
+    epsilon = 1e-7
+    return -y_true / (y_pred + epsilon) / np.size(y_true)
