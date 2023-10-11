@@ -1,6 +1,7 @@
 from layer import LayerInterface
 import numpy as np
 
+#also called fully connected layer
 class Dense(LayerInterface):
     
     def __init__(self, input_size, output_size):

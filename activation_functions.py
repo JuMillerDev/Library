@@ -22,12 +22,23 @@ class Sigmoid(Activation):
 
         super().__init__(sigmoid, sigmoid_prime)
 
+#using alpha to avoid nan when value is <= 0
+class Leaky_Relu(Activation):
+    def __init__(self, alpha=0.01):
+        leaky_relu = lambda x: np.where(x>0, x, x*alpha)
+        leaky_relu_prime = lambda x: np.where(x>=0, 1, alpha)
+        super().__init__(leaky_relu, leaky_relu_prime)
+
 class Softmax(LayerInterface):
-    def forward(self, input):
-        tmp = np.exp(input)
-        self.output = tmp / np.sum(tmp)
+    def __init__(self):
+        pass
+    
+    def forward_propagation(self, input):
+        # Shift the input values to avoid numerical instability
+        tmp = np.exp(input - np.max(input))
+        self.output = tmp / np.sum(tmp, axis=0)
         return self.output
     
-    def backward(self, output_gradient, learning_rate):
+    def backward_propagation(self, output_gradient, learning_rate):
         n = np.size(self.output)
         return np.dot((np.identity(n) - self.output.T) * self.output, output_gradient)
