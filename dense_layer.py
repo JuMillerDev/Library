@@ -16,5 +16,5 @@ class Dense(LayerInterface):
         weights_gradient = np.dot(output_gradient, self.input.T)
         input_gradient = np.dot(self.weights.T, output_gradient)
         self.weights -= learning_rate * weights_gradient
-        self.bias -= learning_rate * input_gradient
+        self.bias -= learning_rate * output_gradient
         return input_gradient
