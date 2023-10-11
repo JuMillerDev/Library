@@ -1,10 +1,10 @@
 import numpy as np
 from scipy import signal
 from layer import LayerInterface
-from kernels_init import he_init
+from kernels_init import he_init, xavier_glorot_init
 
 class Convolutional(LayerInterface):
-    def __init__(self, input_shape, kernel_size, depth, kernels_init="None"):
+    def __init__(self, input_shape, kernel_size, depth, kernels_init="none"):
         input_depth, input_height, input_width = input_shape
         self.depth = depth
         self.input_shape = input_shape
@@ -14,10 +14,15 @@ class Convolutional(LayerInterface):
         self.biases = np.zeros(self.output_shape)
         
         match(kernels_init):
-            case("None"):
+            case("none"):
                 self.kernels = np.random.randn(*self.kernels_shape)
             case("he"):
-                self.kernels = he_init(*self.kernels_shape)
+                self.kernels = he_init(self.kernels_shape)
+            case("xavier"):
+                self.kernels = xavier_glorot_init(self.kernels_shape)
+            case _:
+                print("there is no such kernel initialization")
+                self.kernels = np.random.randn(*self.kernels_shape)
                 
 
     def forward_propagation(self, input):

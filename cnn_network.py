@@ -10,11 +10,6 @@ from loss_functions import binary_cross_entropy, binary_cross_entropy_prime, cat
 from network import train, predict
 
 def preprocess_data(x, y, limit):
-    # zero_index = np.where(y == 0)[0][:limit]
-    # one_index = np.where(y == 1)[0][:limit]
-    # all_indices = np.hstack((zero_index, one_index))
-    # all_indices = np.random.permutation(all_indices)
-    # x, y = x[all_indices], y[all_indices]
     x = x.reshape(len(x), 1, 28, 28)
     x = x.astype("float32") / 255
     y = to_categorical(y)
@@ -28,10 +23,10 @@ x_test, y_test = preprocess_data(x_test, y_test, 1000)
 
 # neural network
 network = [
-    Convolutional(input_shape=(1, 28, 28), kernel_size=3, depth=5),
+    Convolutional(input_shape=(1, 28, 28), kernel_size=3, depth=5, kernels_init="he"),
     Leaky_Relu(),
     Reshape(input_shape=(5, 26, 26), output_shape=(5 * 26 * 26, 1)),
-    Dense(input_size=5 * 26 * 26, output_size=100),
+    Dense(input_size=5 * 26 * 26, output_size=100, kernels_init="lecun"),
     Sigmoid(),
     Dense(input_size=100, output_size=10),
     Softmax()
@@ -52,7 +47,7 @@ train(
 correct_predictions = 0
 for x, y in zip(x_test, y_test):
     output = predict(network, x)
-    print(f"pred: {np.argmax(output)}, true: {np.argmax(y)}")
+    # print(f"pred: {np.argmax(output)}, true: {np.argmax(y)}")
     if(np.argmax(output) == np.argmax(y)):
         correct_predictions += 1
 print("accuracy rate: ", correct_predictions/len(x_test))

@@ -1,12 +1,25 @@
+from kernels_init import he_init, le_cun_init, xavier_glorot_init
 from layer import LayerInterface
 import numpy as np
 
 #also called fully connected layer
 class Dense(LayerInterface):
     
-    def __init__(self, input_size, output_size):
-        self.weights = np.random.randn(output_size, input_size)
+    def __init__(self, input_size, output_size, kernels_init="none"):
         self.bias = np.zeros((output_size,1))
+        
+        match(kernels_init):
+            case("none"):
+                self.weights = np.random.randn(output_size, input_size)
+            case("he"):
+                self.weights = he_init((input_size, output_size))
+            case("xavier"):
+                self.weights = xavier_glorot_init((input_size, output_size))
+            case("lecun"):
+                self.weights = le_cun_init(input_size, output_size)
+            case _:
+                print("there is no such kernel initialization")
+                self.weights = np.random.randn(output_size, input_size)
         
     def forward_propagation(self, input):
         self.input = input
