@@ -4,6 +4,17 @@ def predict(network, input):
         output = layer.forward_propagation(output)
     return output
 
+#todo end optimizers and carry them to separate file
+def sdg_optimizer(network, learning_rate):
+    for layer in network:
+        if(hasattr(layer, 'weights')):
+            pass
+        if(hasattr(layer, 'kernels')):
+            pass
+        if(hasattr(layer, 'biases')):
+            pass
+            
+
 def train(network, loss, loss_prime, x_train, y_train, epochs = 1000, learning_rate = 0.01, verbose = True):
     for e in range(epochs):
         error = 0
