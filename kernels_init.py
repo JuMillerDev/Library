@@ -12,7 +12,8 @@ def xavier_glorot_init(shape):
 #suitable for Relu or Leaky Relu activation
 def he_init(shape):
     if(len(shape) == 2):
-        size = shape #For 1D shape, e.g. Dense layer (input_size,output_size)
+        input_size, output_size = shape
+        size = input_size * output_size #For 1D shape, e.g. Dense layer (input_size,output_size)
     else:
         size = np.prod(shape[:1]) #For multidimensional shape, e.g. Convolutional Layer
         

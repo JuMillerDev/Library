@@ -2,6 +2,7 @@ import numpy as np
 from collections import Counter
 
 #CART algorithm decision tree
+#todo add optimizations
 class Node:
 
     def __init__(self, feature=None, threshold=None, left=None, right=None, *, value=None):
@@ -96,9 +97,8 @@ class DecisionTree:
         return gini
 
     def _split(self, X_column, split_thresh):
-        left_mask = X_column <= split_thresh
-        left_idxs = np.where(left_mask)[0]
-        right_idxs = np.where(~left_mask)[0]
+        left_idxs = np.argwhere(X_column <= split_thresh).flatten()
+        right_idxs = np.argwhere(X_column > split_thresh).flatten()
         return left_idxs, right_idxs
 
     def _traverse_tree(self, x, node):
@@ -127,8 +127,7 @@ x_train, y_train = preprocess_data(x_train, y_train, 10000)
 x_test, y_test = preprocess_data(x_test, y_test, 1000)
 
 
-clf = DecisionTree(max_depth = 5)
+clf = DecisionTree(max_depth = 10)
 clf.fit(x_train, y_train)
 y_pred1 = clf.predict(x_test)
 acc1 = accuracy_score(y_test, y_pred1)
-print(acc1)
