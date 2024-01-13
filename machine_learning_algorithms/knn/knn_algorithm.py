@@ -2,7 +2,7 @@ from collections import defaultdict
 import operator
 import numpy as np
 
-from knn_distances import euc_dist
+from machine_learning_algorithms.knn.knn_distances import euc_dist
 
 
 class KNN:

@@ -1,5 +1,5 @@
 import numpy as np
-from layer import LayerInterface
+from neural_networks.layer import LayerInterface
 
 
 class Activation(LayerInterface):

@@ -1,7 +1,7 @@
 import numpy as np
 from scipy import signal
-from layer import LayerInterface
-from kernels_init import he_init, xavier_glorot_init
+from neural_networks.layer import LayerInterface
+from neural_networks.kernels_init import he_init, xavier_glorot_init
 
 class Convolutional(LayerInterface):
     def __init__(self, input_shape, kernel_size, depth, kernels_init="none"):

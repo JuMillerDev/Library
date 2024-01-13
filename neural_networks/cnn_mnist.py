@@ -2,12 +2,13 @@ import numpy as np
 from keras.datasets import mnist
 from keras.utils import to_categorical
 
-from dense_layer import Dense
-from convolutional_layer import Convolutional
-from reshape_layer import Reshape
-from activation_functions import Leaky_Relu, Sigmoid, Softmax
-from loss_functions import binary_cross_entropy, binary_cross_entropy_prime, categorical_cross_entropy, categorical_cross_entropy_prime
-from network import train, predict
+from neural_networks.layers.dense_layer import Dense
+from neural_networks.layers.convolutional_layer import Convolutional
+from neural_networks.layers.reshape_layer import Reshape
+from neural_networks.layers.max_pooling_layer import MaxPooling2D
+from neural_networks.functions.activation_functions import Leaky_Relu, Sigmoid, Softmax
+from neural_networks.functions.loss_functions import binary_cross_entropy, binary_cross_entropy_prime, categorical_cross_entropy, categorical_cross_entropy_prime
+from neural_networks.network import train, predict
 
 def preprocess_data(x, y, limit):
     x = x.reshape(len(x), 1, 28, 28)
@@ -25,8 +26,9 @@ x_test, y_test = preprocess_data(x_test, y_test, 1000)
 network = [
     Convolutional(input_shape=(1, 28, 28), kernel_size=3, depth=5, kernels_init="he"),
     Leaky_Relu(),
-    Reshape(input_shape=(5, 26, 26), output_shape=(5 * 26 * 26, 1)),
-    Dense(input_size=5 * 26 * 26, output_size=100, kernels_init="lecun"),
+    MaxPooling2D(),
+    Reshape(input_shape=(5, 13, 13), output_shape=(5 * 13 * 13, 1)),
+    Dense(input_size=5 * 13 * 13, output_size=100, kernels_init="lecun"),
     Sigmoid(),
     Dense(input_size=100, output_size=10),
     Softmax()

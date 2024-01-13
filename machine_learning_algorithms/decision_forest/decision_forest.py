@@ -1,16 +1,18 @@
 import numpy as np 
 from collections import Counter
 
-from decision_tree import DecisionTree
+from machine_learning_algorithms.decision_forest.decision_tree import DecisionTree
 
 def bootstrap_sample(X, y):
     n_samples = X.shape[0]
     idxs = np.random.choice(n_samples, n_samples, replace=True)
     return X[idxs], y[idxs]
+
 def most_common_label(y):
     counter = Counter(y)
     most_common = counter.most_common(1)[0][0]
     return most_common
+
 class RandomForest:
     
     def __init__(self, n_trees=10, min_samples_split=2,

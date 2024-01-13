@@ -1,5 +1,5 @@
-from kernels_init import he_init, le_cun_init, xavier_glorot_init
-from layer import LayerInterface
+from neural_networks.kernels_init import he_init, le_cun_init, xavier_glorot_init
+from neural_networks.layer import LayerInterface
 import numpy as np
 
 #also called fully connected layer

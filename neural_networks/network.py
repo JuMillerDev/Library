@@ -1,3 +1,4 @@
+
 def predict(network, input):
     output = input
     for layer in network:
@@ -14,7 +15,6 @@ def sdg_optimizer(network, learning_rate):
         if(hasattr(layer, 'biases')):
             pass
             
-
 def train(network, loss, loss_prime, x_train, y_train, epochs = 1000, learning_rate = 0.01, verbose = True):
     for e in range(epochs):
         error = 0

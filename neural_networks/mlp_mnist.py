@@ -2,12 +2,12 @@ import numpy as np
 from keras.datasets import mnist
 from keras.utils import to_categorical
 
-from dense_layer import Dense
-from convolutional_layer import Convolutional
-from reshape_layer import Reshape
-from activation_functions import Leaky_Relu, Sigmoid, Softmax
-from loss_functions import binary_cross_entropy, binary_cross_entropy_prime, categorical_cross_entropy, categorical_cross_entropy_prime
-from network import train, predict
+from neural_networks.layers.dense_layer import Dense
+from neural_networks.layers.convolutional_layer import Convolutional
+from neural_networks.layers.reshape_layer import Reshape
+from neural_networks.functions.activation_functions import Leaky_Relu, Sigmoid, Softmax
+from neural_networks.functions.loss_functions import binary_cross_entropy, binary_cross_entropy_prime, categorical_cross_entropy, categorical_cross_entropy_prime
+from neural_networks.network import train, predict
 
 def preprocess_data(x, y, limit):
     # x = x.reshape(len(x), 1, 28, 28)

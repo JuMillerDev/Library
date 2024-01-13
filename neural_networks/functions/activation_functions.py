@@ -1,7 +1,6 @@
-
 import numpy as np
-from activation_layer import Activation
-from layer import LayerInterface
+from neural_networks.layers.activation_layer import Activation
+from neural_networks.layer import LayerInterface
 
 
 class Tanh(Activation):
