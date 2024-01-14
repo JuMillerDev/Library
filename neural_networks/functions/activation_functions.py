@@ -28,6 +28,19 @@ class Leaky_Relu(Activation):
         leaky_relu_prime = lambda x: np.where(x>=0, 1, alpha)
         super().__init__(leaky_relu, leaky_relu_prime)
 
+class Relu(LayerInterface):
+    def __init__(self):
+        pass
+
+    def forward_propagation(self, input):
+        self.forward_output = np.maximum(0,input)
+        return self.forward_output
+    
+    def backward_propagation(self, output_gradient, learning_rate):
+        output = np.array(output_gradient,copy=True)
+        output[self.forward_output <= 0] = 0
+        return output
+
 class Softmax(LayerInterface):
     def __init__(self):
         pass

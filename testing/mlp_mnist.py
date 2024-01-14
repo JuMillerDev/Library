@@ -26,9 +26,6 @@ x_test, y_test = preprocess_data(x_test, y_test, 1000)
 
 # neural network
 network = [
-    # Convolutional(input_shape=(1, 28, 28), kernel_size=3, depth=5, kernels_init="he"),
-    # Leaky_Relu(),  
-    # Reshape(input_shape=(5, 26, 26), output_shape=(5 * 26 * 26, 1)),
     Dense(input_size=28*28, output_size=512, kernels_init="lecun"),
     Leaky_Relu(),
     Dense(input_size=512, output_size=100, kernels_init="lecun"),

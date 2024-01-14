@@ -7,29 +7,31 @@ class Dense(LayerInterface):
     
     def __init__(self, input_size, output_size, kernels_init="none"):
         self.bias = np.zeros((output_size,1))
+        self.num_examples = 0
         
         match(kernels_init):
             case("none"):
                 self.weights = np.random.randn(output_size, input_size)
             case("he"):
-                self.weights = he_init((input_size, output_size))
+                self.weights = he_init((output_size, input_size))
             case("xavier"):
                 self.weights = xavier_glorot_init((input_size, output_size))
             case("lecun"):
                 self.weights = le_cun_init(input_size, output_size)
             case _:
                 print("there is no such kernel initialization")
-                self.weights = np.random.randn(output_size, input_size)
+                self.weights = np.random.randn(input_size, output_size)
         
     def forward_propagation(self, input):
         self.input = input
         #y = w * x + b where w, x are matrices 
+        # print("w: ", self.weights.shape, " i: ", self.input.shape)
         return np.dot(self.weights, self.input) + self.bias
     
     def backward_propagation(self, output_gradient, learning_rate):
-        weights_gradient = np.dot(output_gradient, self.input.T)
+        weights_gradient = np.dot(output_gradient, self.input.T) / self.input.shape[0]
         #test
-        bias_gradient = np.sum(output_gradient, axis=1, keepdims=True)
+        bias_gradient = np.sum(output_gradient, axis=1, keepdims=True) / self.input.shape[0]
         input_gradient = np.dot(self.weights.T, output_gradient)
         self.weights -= learning_rate * weights_gradient
         # self.bias -= learning_rate * output_gradient
