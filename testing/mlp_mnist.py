@@ -5,7 +5,7 @@ from keras.utils import to_categorical
 from neural_networks.layers.dense_layer import Dense
 from neural_networks.layers.convolutional_layer import Convolutional
 from neural_networks.layers.reshape_layer import Reshape
-from neural_networks.functions.activation_functions import Leaky_Relu, Sigmoid, Softmax
+from neural_networks.functions.activation_functions import Leaky_Relu, Relu, Sigmoid, Softmax
 from neural_networks.functions.loss_functions import binary_cross_entropy, binary_cross_entropy_prime, categorical_cross_entropy, categorical_cross_entropy_prime
 from neural_networks.network import train, predict
 
@@ -26,10 +26,10 @@ x_test, y_test = preprocess_data(x_test, y_test, 1000)
 
 # neural network
 network = [
-    Dense(input_size=28*28, output_size=512, kernels_init="lecun"),
-    Leaky_Relu(),
-    Dense(input_size=512, output_size=100, kernels_init="lecun"),
-    Leaky_Relu(),
+    Dense(input_size=28*28, output_size=512, kernels_init="he"),
+    Relu(),
+    Dense(input_size=512, output_size=100, kernels_init="he"),
+    Relu(),
     Dense(input_size=100, output_size=10),
     Softmax()
 ]
@@ -41,8 +41,8 @@ train(
     categorical_cross_entropy_prime,
     x_train,
     y_train,
-    epochs=20,
-    learning_rate=0.1
+    epochs=10,
+    learning_rate=0.3
 )
 
 # test (MNIST test data)

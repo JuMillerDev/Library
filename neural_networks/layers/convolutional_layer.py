@@ -1,7 +1,7 @@
 import numpy as np
 from scipy import signal
 from neural_networks.layer import LayerInterface
-from neural_networks.kernels_init import he_init, xavier_glorot_init
+from neural_networks.kernels_init import he_init, xavier_glorot_init, xavier_glorot_normalized_init
 
 class Convolutional(LayerInterface):
     def __init__(self, input_shape, kernel_size, depth, kernels_init="none"):
@@ -20,6 +20,8 @@ class Convolutional(LayerInterface):
                 self.kernels = he_init(self.kernels_shape)
             case("xavier"):
                 self.kernels = xavier_glorot_init(self.kernels_shape)
+            case("xavier_norm"):
+                self.kernels = xavier_glorot_normalized_init(self.kernels_shape)
             case _:
                 print("there is no such kernel initialization")
                 self.kernels = np.random.randn(*self.kernels_shape)

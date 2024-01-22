@@ -1,6 +1,12 @@
 import numpy as np
+import keras
 from keras.datasets import mnist
 from keras.utils import to_categorical
+
+from testing.utils import load_model, save_model
+
+# To turn off tensorflow information when running code
+keras.utils.disable_interactive_logging()
 
 from neural_networks.layers.dense_layer import Dense
 from neural_networks.layers.dropout_layer import Dropout
@@ -18,7 +24,7 @@ def preprocess_data(x, y, limit):
     y = y.reshape(len(y), 10, 1)
     return x[:limit], y[:limit]
 
-def accuracy_rate(network, x_test, y_test):
+def test_network(network, x_test, y_test):
         # test (MNIST test data)
     correct_predictions = 0
     for x, y in zip(x_test, y_test):
@@ -61,14 +67,22 @@ def cnn_for_comparison(iterations: int = 1):
             categorical_cross_entropy_prime,
             x_train,
             y_train,
-            epochs=20,
-            learning_rate=0.1
+            epochs=5,
+            learning_rate=0.5
         )
 
-        accuracy = accuracy_rate(network,x_test,y_test)
+        accuracy = test_network(network,x_test,y_test)
         print("accuracy rate: ", accuracy)
 
         if(iterations > 1): file.write(i, " ," ,accuracy)
+    return network
 
 if __name__ == "__main__":
-    cnn_for_comparison()
+    n = cnn_for_comparison()
+    save_model(n)
+    m = load_model()
+    (x_train, y_train), (x_test, y_test) = mnist.load_data()
+    x_test, y_test = preprocess_data(x_test, y_test, 1000)
+    print("testing new")
+    acc = test_network(m,x_test,y_test)
+    print(acc)
