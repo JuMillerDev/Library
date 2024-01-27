@@ -1,4 +1,5 @@
 from neural_networks.layers.dropout_layer import Dropout
+import numpy as np
 
 def predict(network, input, training: bool = False):
     output = input
@@ -11,17 +12,11 @@ def predict(network, input, training: bool = False):
     # print(output.shape)
     return output
 
-#todo end optimizers and carry them to separate file
-def sdg_optimizer(network, learning_rate):
-    for layer in network:
-        if(hasattr(layer, 'weights')):
-            pass
-        if(hasattr(layer, 'kernels')):
-            pass
-        if(hasattr(layer, 'biases')):
-            pass
             
-def train(network, loss, loss_prime, x_train, y_train, epochs = 1000, learning_rate = 0.01, verbose = True):
+def train(network, loss, loss_prime, x_train, y_train, epochs = 1000, learning_rate = 0.01, verbose = True, return_training_error = False):
+    if return_training_error:
+        error_in_epoch = np.zeros(epochs)
+
     for e in range(epochs):
         error = 0
         for x, y in zip(x_train, y_train):
@@ -40,3 +35,8 @@ def train(network, loss, loss_prime, x_train, y_train, epochs = 1000, learning_r
         error /= len(x_train)
         if verbose:
             print(f"{e + 1}/{epochs}, error={error}")
+        if return_training_error:
+            error_in_epoch[e] = error
+            
+    if return_training_error:
+        return error_in_epoch

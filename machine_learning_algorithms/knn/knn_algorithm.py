@@ -2,7 +2,7 @@ from collections import defaultdict
 import operator
 import numpy as np
 
-from machine_learning_algorithms.knn.knn_distances import euc_dist, manhattan_dist, minkowski_dist
+from machine_learning_algorithms.knn.knn_distances import *
 
 
 class KNN:
@@ -10,11 +10,15 @@ class KNN:
         self.K = K
         self.measure = self.define_measure(distance_measure)
 
-    def define_measure(distance_measure:str) -> function:
+    def define_measure(self,distance_measure:str):
         if distance_measure == 'euc':
             return euc_dist
         elif distance_measure == 'man':
             return manhattan_dist
+        elif distance_measure == 'cheb':
+            return chebyshev_dist
+        elif distance_measure == 'cosine':
+            return cosine_dist
         else:
             return minkowski_dist
         
@@ -28,12 +32,9 @@ class KNN:
             dist = np.array([self.measure(X_test[i], x_t) for x_t in   
             self.x_train])
             dist_sorted = dist.argsort()[:self.K]
-            neigh_count = {}
+            neigh_count = defaultdict(int)
             for idx in dist_sorted:
-                if self.y_train[idx] in neigh_count:
-                    neigh_count[self.y_train[idx]] += 1
-                else:
-                    neigh_count[self.y_train[idx]] = 1
+                neigh_count[self.y_train[idx]] += 1
             sorted_neigh_count = sorted(neigh_count.items(),    
             key=operator.itemgetter(1), reverse=True)
             predictions.append(sorted_neigh_count[0][0]) 

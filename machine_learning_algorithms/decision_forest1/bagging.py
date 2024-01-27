@@ -69,10 +69,3 @@ class _Bag:
         self.indices = np.random.choice(range(data_size),
                                         size=data_size,
                                         replace=True)
-
-
-
-
-
-
-
