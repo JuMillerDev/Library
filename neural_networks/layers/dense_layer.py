@@ -20,7 +20,7 @@ class Dense(LayerInterface):
                 self.weights = xavier_glorot_normalized_init((output_size, input_size))
             case _:
                 print("there is no such kernel initialization")
-                self.weights = np.random.randn(input_size, output_size)
+                self.weights = np.random.randn(output_size, input_size)
         
     def forward_propagation(self, input):
         self.input = input

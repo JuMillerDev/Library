@@ -1,8 +1,8 @@
 import numpy as np
 from collections import Counter
 
-from machine_learning_algorithms.decision_forest1.tree import Tree
-from machine_learning_algorithms.decision_forest1.bagging import Bagging, _Bag
+from machine_learning_algorithms.decision_forest.tree import Tree
+from machine_learning_algorithms.decision_forest.bagging import Bagging, _Bag
 
 class Forest:
 

@@ -7,7 +7,7 @@ objects on data, and making predictions on new data.
 """
 
 # Node is the training algorithm
-from machine_learning_algorithms.decision_forest1.node import Node
+from machine_learning_algorithms.decision_forest.node import Node
 
 # numpy used for matrix manipulation
 import numpy as np

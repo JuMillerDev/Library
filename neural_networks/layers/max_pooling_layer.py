@@ -41,7 +41,9 @@ class MaxPooling2D(LayerInterface):
                 end_height = start_height + pool_height
                 start_width = j * self.stride
                 end_width = start_width + pool_width
-                output[:, start_height:end_height, start_width:end_width] += output_gradient[:,i:i+1,j:j+1] * self.mask[(i,j)]
+                output[:, start_height:end_height, start_width:end_width] += ( 
+                    output_gradient[:,i:i+1,j:j+1] * self.mask[(i,j)]
+                )
 
         return output
         
