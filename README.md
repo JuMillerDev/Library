@@ -1,2 +1,2 @@
 # Bachelors-thesis
- the code to my Bachelor's Thesis at Wroclaw University of Science and Technology
+ the code to my Engeneer's Thesis at Wroclaw University of Science and Technology
